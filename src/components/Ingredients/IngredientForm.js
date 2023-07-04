@@ -36,7 +36,7 @@ setEnteredTitle(event.target.value)
     <input
         type= 'number'
         id = 'amount'
-        value={enteredTitle}
+        value={enteredAmount}
         onChange={event => {
             setEnteredAmount(event.target.value)
 
