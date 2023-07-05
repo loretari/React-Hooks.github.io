@@ -5,7 +5,7 @@ import './ErrorModal.css';
 const ErrorModal = React.memo(props => {
     return (
         <React.Fragment>
-        <div className="backdrop" onClick={props.onClose}/>
+        <div className="backdrop" onClick={props.onClose} />
         <div className= 'error-modal'>
             <h2>Ann Error Occurred!</h2>
             <p>{props.children}</p>
