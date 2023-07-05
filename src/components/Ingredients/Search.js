@@ -34,7 +34,7 @@ const Search = React.memo(props => {
                     <input
                         type = 'text'
                         value={enteredFilter}
-                        // onChange={event => setEnteredFilter(event.target.value)}
+                        onChange={event => setEnteredFilter(event.target.value)}
                     />
                 </div>
             </Card>

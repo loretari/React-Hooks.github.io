@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -10,30 +10,15 @@ const Ingeredients = () => {
 const [ userIngredients, setUserIngredients ] = useState([]);
 
 
-useEffect(() => {
-    fetch('https://react-hooks-update-2fb5a-default-rtdb.firebaseio.com/ingredients.json')
-        .then(response => response.json())
-            .then(responseData => {
-                const loadedIngredients = [];
-                for (const key in responseData) {
-                    loadedIngredients.push({
-                        id: key,
-                        title: responseData[key].title,
-                        amount: responseData[key].amount
-                    });
-                }
-                setUserIngredients(loadedIngredients);
-            });
-}, []);
 
 
 useEffect(() => {
 console.log('RENDERING INGREDIENTS', userIngredients)
     }, [userIngredients]);
 
-const filterIngredientsHandler = filterIngredients => {
-    setUserIngredients(filterIngredients);
-}
+const filterIngredientsHandler = useCallback(filterIngredients => {
+    setUserIngredients(filterIngredients)
+}, []);
 
 const addIngredientHandler = ingredient => {
     fetch('https://react-hooks-update-2fb5a-default-rtdb.firebaseio.com/ingredients.json', {
