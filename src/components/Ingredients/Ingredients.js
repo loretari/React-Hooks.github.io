@@ -6,6 +6,7 @@ import Search from './Search';
 
 
 
+
 const Ingeredients = () => {
 const [ userIngredients, setUserIngredients ] = useState([]);
 
@@ -25,7 +26,8 @@ const addIngredientHandler = ingredient => {
         method: 'POST',
         body: JSON.stringify(ingredient),
         headers: { 'Content-Type': 'applications/json' }
-    }).then(response => {
+    })
+        .then(response => {
         return response.json();
     }).then(responseData => {
         setUserIngredients(prevIngredients => [
@@ -33,14 +35,18 @@ const addIngredientHandler = ingredient => {
             { id: responseData.name, ...ingredient }
         ]);
     })
-
-
-
 };
     const removeIngredientHandler = ingredientId => {
-        setUserIngredients(prevIngredients =>
-        prevIngredients.filter(ingredient => ingredient.id !== ingredientId)
-        );
+
+        fetch(`https://react-hooks-update-2fb5a-default-rtdb.firebaseio.com/ingredients/${ingredientId}.json`, {
+            method: 'DELETE'
+        }).then(response => {
+            setUserIngredients(prevIngredients =>
+                prevIngredients.filter(ingredient => ingredient.id !== ingredientId)
+            );
+        })
+
+
     };
 
 
