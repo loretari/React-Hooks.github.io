@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
+import ErrorModal from '../UI/ErrorModal';
 import Search from './Search';
 
 
@@ -10,7 +11,7 @@ import Search from './Search';
 const Ingeredients = () => {
 const [ userIngredients, setUserIngredients ] = useState([]);
 const [isLoading, setIsLoading] = useState(false);
-
+const [error, setError] = useState();
 
 
 
@@ -41,32 +42,44 @@ const addIngredientHandler = ingredient => {
 };
     const removeIngredientHandler = ingredientId => {
      setIsLoading(true);
-        fetch(`https://react-hooks-update-2fb5a-default-rtdb.firebaseio.com/ingredients/${ingredientId}.json`, {
+        fetch
+        (`https://react-hooks-update-2fb5a-default-rtdb.firebaseio.com/ingredients/${ingredientId}.json`,
+            {
             method: 'DELETE'
         }).then(response => {
             setIsLoading(false);
             setUserIngredients(prevIngredients =>
                 prevIngredients.filter(ingredient => ingredient.id !== ingredientId)
             );
-        })
+        }).catch(error => {
+            setError('Something went wrong!');
+            setIsLoading(false);
+        });
 
 
     };
 
+    const clearError = () => {
+        setError(null);
+
+    }
 
     return (
         <div className= 'App'>
+            {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
             <IngredientForm
              onAddIngredient = {addIngredientHandler}
             loading={isLoading}
             />
+
             <section>
                 <Search onLoadIngredients={filterIngredientsHandler}/>
                 {/* Need to add list here!*/}
-            </section>
-
-            <IngredientList ingredients = { userIngredients} onRemoveItem ={ removeIngredientHandler}/>
-
+                <IngredientList
+                ingredients = { userIngredients}
+                onRemoveItem ={ removeIngredientHandler}
+                />
+        </section>
 
         </div>
     )
