@@ -26,7 +26,9 @@ useEffect(() => {
 }, []);
 
 
-
+useEffect(() => {
+console.log('RENDERING INGREDIENTS', userIngredients)
+    }, [userIngredients]);
 
 const addIngredientHandler = ingredient => {
     fetch('https://react-hooks-update-2fb5a-default-rtdb.firebaseio.com/ingredients.json', {
