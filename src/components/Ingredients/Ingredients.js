@@ -9,6 +9,7 @@ import Search from './Search';
 const Ingeredients = () => {
 const [ userIngredients, setUserIngredients ] = useState([]);
 
+
 useEffect(() => {
     fetch('https://react-hooks-update-2fb5a-default-rtdb.firebaseio.com/ingredients.json')
         .then(response => response.json())
@@ -29,6 +30,10 @@ useEffect(() => {
 useEffect(() => {
 console.log('RENDERING INGREDIENTS', userIngredients)
     }, [userIngredients]);
+
+const filterIngredientsHandler = filterIngredients => {
+    setUserIngredients(filterIngredients);
+}
 
 const addIngredientHandler = ingredient => {
     fetch('https://react-hooks-update-2fb5a-default-rtdb.firebaseio.com/ingredients.json', {
@@ -60,7 +65,7 @@ const addIngredientHandler = ingredient => {
             <IngredientList ingredients = { userIngredients} onRemoveItem ={ removeIngredientHandler}/>
 
             <section>
-                <Search/>
+                <Search onLoadIngredients={filterIngredientsHandler}/>
                 {/* Need to add list here!*/}
             </section>
         </div>
