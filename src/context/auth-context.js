@@ -5,7 +5,7 @@ export const AuthContext = React.createContext({
     login: () => {}
 });
 
-const AuthContextProvider = prps => {
+const AuthContextProvider = props => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const loginHandler = () => {
@@ -14,7 +14,7 @@ const AuthContextProvider = prps => {
     return (
         <AuthContext.Provider
         value={{ login: loginHandler, isAuth: isAuthenticated }}>
-            {prps.children}
+            {props.children}
         </AuthContext.Provider>
 
     )
