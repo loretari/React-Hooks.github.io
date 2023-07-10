@@ -24,11 +24,16 @@ const ingredientReducer = (currentIngredients, action) => {
 
 const Ingeredients = () => {
    const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
-   const { isLoading, error, data, sendRequest, reqExtra, reqIdentifier } = useHttp()
+   const {
+       isLoading,
+       error,
+       data,
+       sendRequest,
+       reqExtra,
+       reqIdentifier,
+       clear
+   } = useHttp()
 
-// const [ userIngredients, setUserIngredients ] = useState([]);
-// const [isLoading, setIsLoading] = useState(false);
-// const [error, setError] = useState();
 
 
 
@@ -45,7 +50,7 @@ useEffect(() => {
     }, [data, reqExtra, reqIdentifier, isLoading, error]);
 
 const filterIngredientsHandler = useCallback(filterIngredients => {
-    // setUserIngredients(filterIngredients);
+
     dispatch({type: 'SET', ingredients: filterIngredients});
 }, []);
 
@@ -57,27 +62,8 @@ const addIngredientHandler = useCallback(ingredient => {
         ingredient,
         'ADD_INGREDIENT'
     )
-    // dispatchHttp({type: 'SEND'})
-    // fetch('https://react-hooks-update-2fb5a-default-rtdb.firebaseio.com/ingredients.json', {
-    //     method: 'POST',
-    //     body: JSON.stringify(ingredient),
-    //     headers: { 'Content-Type': 'applications/json' }
-    // })
-    //     .then(response => {
-    //         dispatchHttp({type: 'RESPONSE'});
-    //     return response.json();
-    // })
-    //     .then(responseData => {
-    //     // setUserIngredients(prevIngredients => [
-    //     //     ...prevIngredients,
-    //     //     { id: responseData.name, ...ingredient }
-    //     // ]);
-    //     dispatch({
-    //         type: 'ADD',
-    //         ingredient: { id: responseData.name, ...ingredient }
-    //     });
-    // });
-}, []);
+
+}, [sendRequest]);
     const removeIngredientHandler = useCallback(ingredientId => {
 sendRequest(
     `https://react-hooks-update-2fb5a-default-rtdb.firebaseio.com/ingredients/${ingredientId}.json`,
@@ -88,10 +74,7 @@ sendRequest(
     )
     }, [sendRequest]);
 
-    const clearError = useCallback(() => {
-        // dispatchHttp({type: 'CLEAR'});
 
-    }, []);
 
     const ingredientList = useMemo(() => {
         return  (
@@ -104,7 +87,7 @@ sendRequest(
 
     return (
         <div className= 'App'>
-            {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+            {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
             <IngredientForm
              onAddIngredient = {addIngredientHandler}
             loading={isLoading}
